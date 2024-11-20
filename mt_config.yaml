@@ -14,10 +14,13 @@ input_alphabet:
   - b
 transitions:
   q0:
-    a: [q1, a, R]
-    b: [q1, b, R]
+    a: [q1, a, R]   # Si está en el estado q0 y lee 'a', va a q1, escribe 'a' y se mueve a la derecha.
+    b: [q1, b, R]   # Si está en el estado q0 y lee 'b', va a q1, escribe 'b' y se mueve a la derecha.
+    _: [qf, _, R]   # Si está en el estado q0 y lee '_', va al estado final qf.
   q1:
-    _: [qf, _, R]
+    a: [q1, a, R]   # Si está en el estado q1 y lee 'a', permanece en q1 y se mueve a la derecha.
+    b: [q1, b, R]   # Si está en el estado q1 y lee 'b', permanece en q1 y se mueve a la derecha.
+    _: [qf, _, R]   # Si está en el estado q1 y lee '_', va al estado final qf.
 inputs:
   - aaabbb
   - aabb

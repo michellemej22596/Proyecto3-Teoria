@@ -1,0 +1,48 @@
+states:
+  - q0
+  - q1
+  - q2
+  - q3
+  - q4
+  - q5
+  - qf
+initial_state: q0
+final_states:
+  - qf
+tape_alphabet:
+  - a
+  - b
+  - X
+  - _
+input_alphabet:
+  - a
+  - b
+transitions:
+  q0:
+    a: [q1, X, R]
+    b: [q1, X, R]
+    _: [qf, _, R]
+  q1:
+    a: [q1, a, R]
+    b: [q1, b, R]
+    _: [q2, _, L]
+  q2:
+    X: [q2, X, L]
+    a: [q3, X, R]
+    b: [q3, X, R]
+    _: [q4, _, R]
+  q3:
+    X: [q3, X, R]
+    a: [q1, a, R]
+    b: [q1, b, R]
+    _: [qf, _, R]
+  q4:
+    X: [q5, _, R]  # Comienza a limpiar todos los símbolos 'X'
+    _: [qf, _, R]  # Si no hay más 'X', acepta y termina
+  q5:
+    X: [q5, _, R]  # Continúa limpiando los 'X'
+    _: [qf, _, R]  # Si llega al '_', acepta y termina
+inputs:
+  - aaabbb
+  - aabb
+  - bbaa

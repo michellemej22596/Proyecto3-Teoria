@@ -11,7 +11,6 @@ class TuringMachine:
         self.current_state = initial_state
 
     def load_tape(self, input_string):
-        # Inicializa la cinta con la entrada y añade un símbolo en blanco al final.
         self.tape = list(input_string) + ['_']
         self.head_position = 0
         self.current_state = self.initial_state
@@ -24,15 +23,14 @@ class TuringMachine:
 
         # Obtener el símbolo actual bajo el cabezal.
         symbol = self.tape[self.head_position]
-        key = (self.current_state, symbol)
 
         # Verificar si hay una transición válida para el estado actual y el símbolo.
-        if key not in self.transitions:
+        if self.current_state not in self.transitions or symbol not in self.transitions[self.current_state]:
             print(f"No hay transición válida para el estado {self.current_state} y el símbolo '{symbol}'")
             return False
 
         # Obtener el nuevo estado, el símbolo para escribir y el movimiento del cabezal.
-        new_state, write_symbol, move = self.transitions[key]
+        new_state, write_symbol, move = self.transitions[self.current_state][symbol]
 
         # Descripción instantánea antes del paso.
         print(f"Estado actual: {self.current_state}, Símbolo leído: '{symbol}', Cinta: {''.join(self.tape)}, Posición del cabezal: {self.head_position}")
