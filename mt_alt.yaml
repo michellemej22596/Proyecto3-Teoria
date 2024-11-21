@@ -44,5 +44,6 @@ transitions:
     _: [qf, _, R]  # Si llega al '_', acepta y termina
 inputs:
   - aaabbb
-  - aabb
-  - bbaa
+  - aabba
+  - aabbab 
+  - bbaaaba

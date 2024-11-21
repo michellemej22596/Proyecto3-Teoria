@@ -59,10 +59,19 @@ class TuringMachine:
         print(f"Nuevo estado: {self.current_state}, Cinta después del paso: {''.join(self.tape)}, Posición del cabezal: {self.head_position}")
 
         return True
+    
+    def run(self, max_steps=1000):
+        step_count = 0  # Inicializa el contador de pasos.
 
-    def run(self):
         while self.current_state not in self.final_states:
+            if step_count >= max_steps:
+                print("Máximo número de pasos alcanzado. La máquina puede estar en un bucle.")
+                return False  # Rechaza la entrada.
+
             if not self.step():
                 return False  # Input no aceptado.
+            
+            step_count += 1  # Incrementa el contador.
+
         print(f"Cadena aceptada en estado final: {self.current_state}")
         return True  # Input aceptado.

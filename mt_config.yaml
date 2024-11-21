@@ -1,27 +1,57 @@
 states:
   - q0
   - q1
+  - q2
+  - q3
+  - q4
   - qf
+  - qr
 initial_state: q0
 final_states:
   - qf
 tape_alphabet:
   - a
   - b
+  - X
+  - Y
   - _
 input_alphabet:
   - a
   - b
 transitions:
   q0:
-    a: [q1, a, R]   # Si está en el estado q0 y lee 'a', va a q1, escribe 'a' y se mueve a la derecha.
-    b: [q1, b, R]   # Si está en el estado q0 y lee 'b', va a q1, escribe 'b' y se mueve a la derecha.
-    _: [qf, _, R]   # Si está en el estado q0 y lee '_', va al estado final qf.
+    a: [q1, X, R]   # Marca una 'a' y avanza.
+    b: [q2, Y, R]   # Marca una 'b' y avanza.
+    X: [q0, X, R]   # Salta marcas hacia adelante.
+    Y: [q0, Y, R]   # Salta marcas hacia adelante.
+    _: [q4, _, L]   # Si llega al final, verifica si todo está procesado.
   q1:
-    a: [q1, a, R]   # Si está en el estado q1 y lee 'a', permanece en q1 y se mueve a la derecha.
-    b: [q1, b, R]   # Si está en el estado q1 y lee 'b', permanece en q1 y se mueve a la derecha.
-    _: [qf, _, R]   # Si está en el estado q1 y lee '_', va al estado final qf.
+    a: [q1, a, R]   # Sigue avanzando sobre 'a'.
+    b: [q3, Y, L]   # Encuentra un 'b' para emparejar y marca.
+    X: [q1, X, R]   # Salta marcas.
+    _: [qr, _, R]   # Rechaza si no encuentra un 'b'.
+  q2:
+    b: [q2, b, R]   # Sigue avanzando sobre 'b'.
+    a: [q3, X, L]   # Encuentra un 'a' para emparejar y marca.
+    Y: [q2, Y, R]   # Salta marcas.
+    _: [qr, _, R]   # Rechaza si no encuentra un 'a'.
+  q3:
+    X: [q3, X, L]   # Salta marcas hacia atrás.
+    Y: [q3, Y, L]   # Salta marcas hacia atrás.
+    a: [q3, a, L]   # Salta 'a' hacia atrás.
+    b: [q3, b, L]   # Salta 'b' hacia atrás.
+    _: [q0, _, R]   # Regresa al inicio para buscar más pares.
+  q4:
+    X: [q4, X, L]   # Salta marcas hacia atrás.
+    Y: [q4, Y, L]   # Salta marcas hacia atrás.
+    _: [qf, _, R]   # Si todo está procesado, acepta.
+    a: [qr, a, R]   # Rechaza si queda una 'a' sin emparejar.
+    b: [qr, b, R]   # Rechaza si queda una 'b' sin emparejar.
+  qr:
+    _: [qr, _, R]   # Rechazo permanente.
+  qf:
+    _: [qf, _, R]   # Aceptación permanente.
 inputs:
-  - aaabbb
-  - aabb
-  - bbaa
+  - aaaab   # Rechazada: Desbalanceada.
+  - ab      # Aceptada: Balanceada.
+  - abcabb     # Rechazada: Símbolo no válido.
