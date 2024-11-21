@@ -29,11 +29,13 @@ transitions:
     a: [q1, a, R]   # Sigue avanzando sobre 'a'.
     b: [q3, Y, L]   # Encuentra un 'b' para emparejar y marca.
     X: [q1, X, R]   # Salta marcas.
+    Y: [q1, Y, R]   # Salta marcas. <-- Nueva transición para manejar 'Y'.
     _: [qr, _, R]   # Rechaza si no encuentra un 'b'.
   q2:
     b: [q2, b, R]   # Sigue avanzando sobre 'b'.
     a: [q3, X, L]   # Encuentra un 'a' para emparejar y marca.
-    Y: [q2, Y, R]   # Salta marcas.
+    X: [q2, X, R]   # Salta marcas.
+    Y: [q2, Y, R]   # Salta marcas. <-- Nueva transición para manejar 'Y'.
     _: [qr, _, R]   # Rechaza si no encuentra un 'a'.
   q3:
     X: [q3, X, L]   # Salta marcas hacia atrás.
@@ -52,6 +54,9 @@ transitions:
   qf:
     _: [qf, _, R]   # Aceptación permanente.
 inputs:
-  - aaaab   # Rechazada: Desbalanceada.
-  - ab      # Aceptada: Balanceada.
+  - aaaaaa #Rechazada> Bucle
+  - aaabbb #Aceptada: Balanceada
+  - ababab #Aceptada: Balanceada
   - abcabb     # Rechazada: Símbolo no válido.
+  
+ 
