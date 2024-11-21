@@ -47,4 +47,5 @@ python main.py
 El programa mostrará si las cadenas configuradas son aceptadas o rechazadas, junto con las descripciones instantáneas.
 
 #### Video Demostrativo
+https://www.youtube.com/watch?v=0tJJcpMhNOk
 
